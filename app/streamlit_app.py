@@ -4,13 +4,14 @@ import numpy as np
 import re
 import nltk
 from nltk.corpus import stopwords
-from nltk.stem import PorterStemmer
+from nltk.stem import SnowballStemmer
 
 # Descargar stopwords si no existen (necesario en Streamlit Cloud)
-try:
-    nltk.data.find('corpora/stopwords')
-except LookupError:
-    nltk.download('stopwords', quiet=True)
+for lang in ['english', 'spanish']:
+    try:
+        nltk.data.find(f'corpora/stopwords')
+    except LookupError:
+        nltk.download(lang, quiet=True)
 
 # Configuración de página
 st.set_page_config(
@@ -90,8 +91,10 @@ def load_artifacts():
         st.stop()
 
 # Preprocesamiento IDÉNTICO al entrenamiento
-STOP_WORDS = set(stopwords.words('english'))
-STEMMER = PorterStemmer()
+STOP_WORDS_EN = set(stopwords.words('english'))
+STOP_WORDS_ES = set(stopwords.words('spanish'))
+STOP_WORDS = STOP_WORDS_EN | STOP_WORDS_ES
+STEMMER = SnowballStemmer('spanish')
 
 def clean_text(text: str) -> str:
     if not isinstance(text, str):

@@ -1,7 +1,7 @@
 import re
 import nltk
 from nltk.corpus import stopwords
-from nltk.stem import PorterStemmer
+from nltk.stem import SnowballStemmer
 import joblib
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.model_selection import train_test_split
@@ -10,13 +10,16 @@ import pandas as pd
 import numpy as np
 
 # Descargar stopwords si no existen
-try:
-    stopwords.words('english')
-except LookupError:
-    nltk.download('stopwords', quiet=True)
+for lang in ['english', 'spanish']:
+    try:
+        stopwords.words(lang)
+    except LookupError:
+        nltk.download(lang, quiet=True)
 
-STOP_WORDS = set(stopwords.words('english'))
-STEMMER = PorterStemmer()
+STOP_WORDS_EN = set(stopwords.words('english'))
+STOP_WORDS_ES = set(stopwords.words('spanish'))
+STOP_WORDS = STOP_WORDS_EN | STOP_WORDS_ES
+STEMMER = SnowballStemmer('spanish')
 
 
 def clean_text(text: str) -> str:
