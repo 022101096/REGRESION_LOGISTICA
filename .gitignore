@@ -16,7 +16,7 @@ data/raw/
 data/processed/*.pkl
 
 # Model files
-models/*.pkl
+# models/*.pkl
 
 # IDE
 .vscode/
