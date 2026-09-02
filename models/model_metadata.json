@@ -1,0 +1,20 @@
+{
+  "model_type": "LogisticRegression",
+  "timestamp": "2026-09-02T15:13:29.747260",
+  "hyperparameters": {
+    "C": 1.0,
+    "penalty": "l2",
+    "solver": "lbfgs",
+    "max_iter": 2000,
+    "class_weight": "balanced"
+  },
+  "metrics": {
+    "accuracy": 0.0,
+    "precision": 0.0,
+    "recall": 0.0,
+    "f1": 0.0,
+    "roc_auc": 0.0
+  },
+  "n_features": 3000,
+  "n_iter": 22
+}
