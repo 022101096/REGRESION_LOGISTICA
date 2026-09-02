@@ -2,8 +2,15 @@ import streamlit as st
 import joblib
 import numpy as np
 import re
+import nltk
 from nltk.corpus import stopwords
 from nltk.stem import PorterStemmer
+
+# Descargar stopwords si no existen (necesario en Streamlit Cloud)
+try:
+    nltk.data.find('corpora/stopwords')
+except LookupError:
+    nltk.download('stopwords', quiet=True)
 
 # Configuración de página
 st.set_page_config(
