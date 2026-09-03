@@ -9,7 +9,7 @@ from nltk.stem import SnowballStemmer
 # Descargar stopwords si no existen (necesario en Streamlit Cloud)
 for lang in ['english', 'spanish']:
     try:
-        nltk.data.find(f'corpora/stopwords')
+        nltk.data.find(f'corpora/stopwords/{lang}')
     except LookupError:
         nltk.download(lang, quiet=True)
 
