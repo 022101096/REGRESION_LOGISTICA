@@ -6,12 +6,18 @@ import nltk
 from nltk.corpus import stopwords
 from nltk.stem import SnowballStemmer
 
-# Descargar stopwords si no existen (necesario en Streamlit Cloud)
-for lang in ['english', 'spanish']:
+# Descargar recursos NLTK ANTES de usarlos (necesario en Streamlit Cloud)
+for resource in ['stopwords', 'punkt', 'punkt_tab']:
     try:
-        nltk.data.find(f'corpora/stopwords/{lang}')
+        nltk.data.find(f'tokenizers/{resource}' if resource != 'stopwords' else f'corpora/{resource}')
     except LookupError:
-        nltk.download(lang, quiet=True)
+        nltk.download(resource)
+
+# Ahora sí cargar stopwords (tras descarga garantizada)
+STOP_WORDS_EN = set(stopwords.words('english'))
+STOP_WORDS_ES = set(stopwords.words('spanish'))
+STOP_WORDS = STOP_WORDS_EN | STOP_WORDS_ES
+STEMMER = SnowballStemmer('spanish')
 
 # Configuración de página
 st.set_page_config(
@@ -89,12 +95,6 @@ def load_artifacts():
         st.error(f"❌ No se encontraron los archivos del modelo: {e}")
         st.info("Ejecuta primero los notebooks para entrenar y guardar el modelo.")
         st.stop()
-
-# Preprocesamiento IDÉNTICO al entrenamiento
-STOP_WORDS_EN = set(stopwords.words('english'))
-STOP_WORDS_ES = set(stopwords.words('spanish'))
-STOP_WORDS = STOP_WORDS_EN | STOP_WORDS_ES
-STEMMER = SnowballStemmer('spanish')
 
 def clean_text(text: str) -> str:
     if not isinstance(text, str):
